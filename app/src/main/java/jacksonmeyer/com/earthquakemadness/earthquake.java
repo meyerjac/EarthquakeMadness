@@ -4,7 +4,7 @@ package jacksonmeyer.com.earthquakemadness;
  * Created by jacksonmeyer on 5/6/17.
  */
 
-public class earthquake {
+public class Earthquake {
     String datetime;
     Integer depth;
     Integer lng;
@@ -13,7 +13,7 @@ public class earthquake {
     Integer magnitude;
     Integer lat;
 
-    public earthquake(String datetime, Integer depth, Integer lng, String src, String eqid, Integer magnitude, Integer lat) {
+    public Earthquake(String datetime, Integer depth, Integer lng, String src, String eqid, Integer magnitude, Integer lat) {
         this.datetime = datetime;
         this.depth = depth;
         this.lng = lng;

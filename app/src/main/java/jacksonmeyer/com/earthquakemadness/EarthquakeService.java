@@ -33,8 +33,8 @@ public class EarthquakeService {
         call.enqueue(callback);
     }
 
-    public static ArrayList<earthquake> processResults(Response response) throws IOException {
-        ArrayList<earthquake> Results = new ArrayList<>();
+    public static ArrayList<Earthquake> processResults(Response response) throws IOException {
+        ArrayList<Earthquake> Results = new ArrayList<>();
 
         try {
             if (response.isSuccessful()) {
@@ -52,7 +52,7 @@ public class EarthquakeService {
                     Integer magnitude = item.getInt("magnitude");
                     Integer lat = item.getInt("lat");
 
-                    earthquake earthquakeObject = new earthquake(datetime, depth, lng, src, eqid, magnitude, lat);
+                    Earthquake earthquakeObject = new Earthquake(datetime, depth, lng, src, eqid, magnitude, lat);
 
                     Results.add(earthquakeObject);
                 }
