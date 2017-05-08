@@ -5,7 +5,7 @@
     <string name="wert">EarthquakeMadness</string>
     <string name="info_alert_dialog">The app icon was downloaded from flaticon.com,
         the color of each earthquake indicates the depth of the earthquake, the darker
-        the shade the deeper in the earths crust the earthquake happens </string>
+        the shade the deeper in the earths crust and the earthquake happens </string>
     <string name="ok">Ok</string>
 
 
