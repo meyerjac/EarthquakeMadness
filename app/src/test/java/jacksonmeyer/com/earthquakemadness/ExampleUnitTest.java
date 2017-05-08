@@ -1,17 +1,36 @@
 package jacksonmeyer.com.earthquakemadness;
 
+import android.os.Build;
+import android.widget.ListView;
+
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.annotation.Config;
 
-import static org.junit.Assert.*;
+import static junit.framework.Assert.assertNotNull;
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
+@RunWith(RobolectricGradleTestRunner.class)
+
 public class ExampleUnitTest {
+    private MainActivity activity;
+    private ListView EarthquakeListView;
+
+    @Before
+    public void setup() {
+        activity = Robolectric.setupActivity(MainActivity.class);
+        EarthquakeListView = (ListView) activity.findViewById(R.id.earthquakeListView);
+
+
+    }
+
     @Test
-    public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+    public void restaurantListViewPopulates() {
+        assertNotNull(EarthquakeListView.getAdapter());
+
     }
 }
+

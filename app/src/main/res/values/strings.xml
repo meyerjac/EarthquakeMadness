@@ -1,8 +1,14 @@
 <resources>
     <string name="app_name">Earthquake Madness</string>
     <string name="no_internet">There appears to be no internet, please try again</string>
-    <string name="depth">Depth: %1d km.</string>
+    <string name="info">info</string>
     <string name="wert">EarthquakeMadness</string>
+    <string name="info_alert_dialog">The app icon was downloaded from flaticon.com,
+        the color of each earthquake indicates the depth of the earthquake, the darker
+        the shade the deeper in the earths crust the earthquake happens </string>
+    <string name="ok">Ok</string>
+
+
 
 
 </resources>

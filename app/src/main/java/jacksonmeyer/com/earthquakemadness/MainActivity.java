@@ -1,12 +1,19 @@
 package jacksonmeyer.com.earthquakemadness;
 
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,7 +31,7 @@ import okhttp3.Response;
 
 import static jacksonmeyer.com.earthquakemadness.R.id.earthquakeListView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends ActionBarActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     public ArrayList<Earthquake> earthquakeResults = new ArrayList<Earthquake>();
@@ -33,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Bind(earthquakeListView)
     ListView EarthquakeListView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +54,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             getEarthquakeData();
         } else {
             Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
-            delaydialog();
         }
     }
 
-    private void delaydialog() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.info_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.info_icon:
+              showInfoDialogFragment();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void delayFetchingApiDataDialog() {
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -86,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
-                delaydialog();
+                delayFetchingApiDataDialog();
             }
 
             @Override
@@ -98,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void run() {
                         EarthquakeListView.setAdapter(mAdapter);
-                        delaydialog();
+                        delayFetchingApiDataDialog();
 
                         EarthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -113,7 +134,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    @Override
-    public void onClick(View view) {
+
+    void showInfoDialogFragment() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        MyDialogFragment frag = new MyDialogFragment();
+        frag.show(ft, "txn_tag");
     }
+
+    static public class MyDialogFragment extends DialogFragment {
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setStyle(DialogFragment.STYLE_NORMAL, R.style.MY_DIALOG);
+        }
+
+        @Override
+        public void onStart() {
+            super.onStart();
+            Dialog d = getDialog();
+            if (d!=null){
+                int width = ViewGroup.LayoutParams.MATCH_PARENT;
+                int height = ViewGroup.LayoutParams.MATCH_PARENT;
+                d.getWindow().setLayout(width, height);
+            }
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View root = inflater.inflate(R.layout.my_fragment, container, false);
+            return root;
+        }
+
+    }
+
 }
+
