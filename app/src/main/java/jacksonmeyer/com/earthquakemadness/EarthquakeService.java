@@ -1,7 +1,5 @@
 package jacksonmeyer.com.earthquakemadness;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,11 +25,14 @@ public class EarthquakeService {
                 .url(Constants.API_EARTHQUAKE_URL)
                 .get()
                 .build();
-        Log.d("yo", "getEarthquakeData: " + request);
 
         Call call = client.newCall(request);
         call.enqueue(callback);
     }
+
+    /*when processResults is called from the main activity, it filters and assembles them into object
+    and puts them in an Earthquake Array
+     */
 
     public static ArrayList<Earthquake> processResults(Response response) throws IOException {
         ArrayList<Earthquake> Results = new ArrayList<>();
@@ -41,7 +42,6 @@ public class EarthquakeService {
                 String jsonData = response.body().string();
                 JSONObject results = new JSONObject(jsonData);
                 JSONArray earthquakes = results.getJSONArray("earthquakes");
-                Log.d("yo", "process results: " + earthquakes);
                 for (int i = 0; i < earthquakes.length(); i++) {
                     JSONObject item = earthquakes.getJSONObject(i);
                     String datetime = item.getString("datetime");
@@ -53,7 +53,6 @@ public class EarthquakeService {
                     Double lat = item.getDouble("lat");
 
                     Earthquake earthquakeObject = new Earthquake(datetime, depth, lng, src, eqid, magnitude, lat);
-
                     Results.add(earthquakeObject);
                 }
             }
@@ -61,6 +60,5 @@ public class EarthquakeService {
             e.printStackTrace();
         }
         return Results;
-
     }
 }

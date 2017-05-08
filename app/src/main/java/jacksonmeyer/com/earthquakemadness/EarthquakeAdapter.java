@@ -16,6 +16,8 @@ import java.util.ArrayList;
  */
 
 public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
+
+    //define adapter class
 public EarthquakeAdapter(Context context, ArrayList<Earthquake> EarthShakes){
         super(context, 0, EarthShakes);
         }
@@ -24,33 +26,24 @@ public EarthquakeAdapter(Context context, ArrayList<Earthquake> EarthShakes){
 public View getView(int position, View convertView, ViewGroup parent) {
     // Get the data for the item in this position
     Earthquake earthquake = getItem(position);
-
-    // Check if an existing view is being reused, otherwise inflate the view
+    // Check if an existing view is being reused, otherwise inflate the view...this improves performance baby!
     if (convertView == null) {convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
     }
 
-    // bind views in list_item to fill with data
+    // define views in list_item.xml to fill with data
     TextView DateTextView = (TextView) convertView.findViewById(R.id.dateTextView);
     TextView MagnitudeTextView = (TextView) convertView.findViewById(R.id.magnitudeTextView);
     TextView DepthTextView = (TextView) convertView.findViewById(R.id.depthTextView);
     RelativeLayout RelativeLayoutView = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
-
     RelativeLayoutView.setTag(position);
-    // Attach the click event handler
-    RelativeLayoutView.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            int position = (Integer) view.getTag();
-            // Access the row position here to get the correct data item
-            Earthquake earthquake = getItem(position);
-            Toast.makeText(getContext(), earthquake.getDatetime(), Toast.LENGTH_LONG).show();
-        }
-    });
 
     // Populate the data into the template view using the data object
-    DateTextView.setText(earthquake.getDatetime());
     Double magnitude = earthquake.getMagnitude();
-
+    Integer depth = earthquake.getDepth();
+    DateTextView.setText(earthquake.getDatetime());
+    DepthTextView.setText("depth: " + earthquake.getDepth() + " km.");
+    Double lat = earthquake.getLat();
+    Double lng = earthquake.getLng();
 
 
     if (magnitude >= 6) {
@@ -59,20 +52,24 @@ public View getView(int position, View convertView, ViewGroup parent) {
         MagnitudeTextView.setText(String.valueOf(magnitude));
     }
 
-    Integer depth = earthquake.getDepth();
-    DepthTextView.setText("depth: " + earthquake.getDepth() + " km.");
-
     if (depth >= 75) {
-     RelativeLayoutView.setBackgroundResource(R.color.colorPrimaryDark);
+        RelativeLayoutView.setBackgroundResource(R.color.colorPrimaryDark);
     } else if (depth >= 20 && depth < 75){
         RelativeLayoutView.setBackgroundResource(R.color.colorPrimary);
     } else {
         RelativeLayoutView.setBackgroundResource(R.color.colorAccent);
     }
 
-
-    Double lat = earthquake.getLat();
-    Double lng = earthquake.getLng();
+    // Attach the click event listener
+    RelativeLayoutView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            // Access the row position here to get the correct data item
+            int position = (Integer) view.getTag();
+            Earthquake earthquake = getItem(position);
+            Toast.makeText(getContext(), earthquake.getDatetime(), Toast.LENGTH_SHORT).show();
+        }
+    });
 
     // Return the completed view to render on screen
         return convertView;

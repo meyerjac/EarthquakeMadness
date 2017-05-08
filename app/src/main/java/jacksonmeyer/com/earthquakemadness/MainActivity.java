@@ -29,14 +29,12 @@ import okhttp3.Response;
 import static jacksonmeyer.com.earthquakemadness.R.id.earthquakeListView;
 
 public class MainActivity extends ActionBarActivity {
-    public static final String TAG = MainActivity.class.getSimpleName();
+    @Bind(earthquakeListView)
+    ListView EarthquakeListView;
 
     public ArrayList<Earthquake> earthquakeResults = new ArrayList<>();
     private EarthquakeAdapter mAdapter;
     private ProgressDialog EarthquakeDialog;
-
-    @Bind(earthquakeListView)
-    ListView EarthquakeListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +67,6 @@ public class MainActivity extends ActionBarActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
     public void createAndShowDialogBox() {
         createEarthquakeDialog();
@@ -132,8 +129,6 @@ public class MainActivity extends ActionBarActivity {
         }, 2000);
     }
 
-
-
     private void showDialogForm() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialog_box);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -144,7 +139,6 @@ public class MainActivity extends ActionBarActivity {
 
             }
         });
-
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         AlertDialog dialog = builder.create();
         dialog.show();

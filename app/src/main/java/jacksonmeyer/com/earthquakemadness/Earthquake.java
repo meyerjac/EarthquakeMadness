@@ -4,6 +4,9 @@ package jacksonmeyer.com.earthquakemadness;
  * Created by jacksonmeyer on 5/6/17.
  */
 
+
+//Constructor for Earthquake model, these are all the fields that are returned in the JSON
+
 public class Earthquake {
     String datetime;
     Integer depth;

@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context="jacksonmeyer.com.earthquakemadness.MainActivity">
 
-
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,16 +15,4 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         />
-
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_map_white_24dp"
-        android:id="@+id/floatingActionButton"
-        app:fabSize="normal"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="24dp"
-        android:layout_marginRight="24dp"/>
-
 </RelativeLayout>
