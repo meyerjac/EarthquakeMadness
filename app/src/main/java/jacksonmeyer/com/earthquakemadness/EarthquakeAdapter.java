@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -16,7 +18,7 @@ import jacksonmeyer.com.earthquakemadness.models.Earthquake;
  */
 
 public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
-public EarthquakeAdapter(Context context, ArrayList<Earthquake> EarthShakes) {
+public EarthquakeAdapter(Context context, ArrayList<Earthquake> EarthShakes){
         super(context, 0, EarthShakes);
         }
 
@@ -33,33 +35,38 @@ public View getView(int position, View convertView, ViewGroup parent) {
     TextView DateTextView = (TextView) convertView.findViewById(R.id.dateTextView);
     TextView MagnitudeTextView = (TextView) convertView.findViewById(R.id.magnitudeTextView);
     TextView DepthTextView = (TextView) convertView.findViewById(R.id.depthTextView);
+    RelativeLayout RelativeLayoutView = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
+
+    RelativeLayoutView.setTag(position);
+    // Attach the click event handler
+    RelativeLayoutView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int position = (Integer) view.getTag();
+            // Access the row position here to get the correct data item
+            Earthquake earthquake = getItem(position);
+            Toast.makeText(getContext(), earthquake.getDatetime(), Toast.LENGTH_LONG).show();
+        }
+    });
 
     // Populate the data into the template view using the data object
     DateTextView.setText(earthquake.getDatetime());
     Double magnitude = earthquake.getMagnitude();
-
-
-    /*visually differentiating betweent the different volcanos, if it on the richter scale greater than 6.0
-    it will make the background a more pronouced background */
-
-
-//    if (magnitude >= 6.0) {
-//        convertView.setBackgroundResource(R.color.colorAccent);
-//    } else {
-//        convertView.setBackgroundResource(R.color.colorPrimary);
-//    }
-
     MagnitudeTextView.setText(String.valueOf(magnitude));
     Integer depth = earthquake.getDepth();
-    String dep = depth.toString();
-
-    //placeholder in Resources not working
-    DepthTextView.setText("depth: " + earthquake.getDepth() + "km.");
+    if (depth >= 75) {
+     RelativeLayoutView.setBackgroundResource(R.color.colorPrimaryDark);
+    } else if (depth >= 20 && depth < 75){
+        RelativeLayoutView.setBackgroundResource(R.color.colorPrimary);
+    } else {
+        RelativeLayoutView.setBackgroundResource(R.color.colorAccent);
+    }
+    DepthTextView.setText("depth: " + earthquake.getDepth() + " km.");
     Double lat = earthquake.getLat();
     Double lng = earthquake.getLng();
 
     // Return the completed view to render on screen
         return convertView;
-        }
+    }
 }
 

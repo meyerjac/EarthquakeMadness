@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Bind(earthquakeListView)
     ListView EarthquakeListView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +99,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void run() {
                         EarthquakeListView.setAdapter(mAdapter);
                         delaydialog();
+
+                        EarthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                String restaurant = ((TextView)view).getText().toString();
+                                Toast.makeText(MainActivity.this, restaurant, Toast.LENGTH_LONG).show();
+                            }
+                        });
                     }
                 });
             }
