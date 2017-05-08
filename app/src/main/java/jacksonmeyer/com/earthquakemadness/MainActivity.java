@@ -116,8 +116,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                             @Override
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                 String lat = String.valueOf(earthquakeResults.get(i).getLat());
-                                String lon = String.valueOf(earthquakeResults.get(i).getLng());
+                                String lng = String.valueOf(earthquakeResults.get(i).getLng());
                                 Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                                intent.putExtra("lat", lat);
+                                intent.putExtra("lng", lng);
                                 startActivity(intent);
                             }
                         });
