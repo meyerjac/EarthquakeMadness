@@ -1,16 +1,21 @@
 package jacksonmeyer.com.earthquakemadness;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import jacksonmeyer.com.earthquakemadness.models.Earthquake;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -22,10 +27,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public ArrayList<Earthquake> earthquakeResults = new ArrayList<Earthquake>();
     private EarthquakeAdapter mAdapter;
+    private ProgressDialog EarthquakeDialog;
 
-
-    @Bind(R.id.getEarthquakeButton)
-    Button GetEarth;
     @Bind(earthquakeListView)
     ListView EarthquakeListView;
 
@@ -35,10 +38,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        GetEarth.setOnClickListener(this);
+        createEarthquakeProgressDialog();
+        showDialogBox();
+
+        if (internetIsAvailable()) {
+            getEarthquakeData();
+        } else {
+            Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
+            delaydialog();
+        }
     }
 
+    private void delaydialog() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                EarthquakeDialog.dismiss();
+            }
+        }, 2000);
+    }
 
+    public void showDialogBox() {
+        createEarthquakeProgressDialog();
+        EarthquakeDialog.show();
+    }
+
+    private boolean internetIsAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
+    }
+
+    private void createEarthquakeProgressDialog() {
+        EarthquakeDialog = new ProgressDialog(this, R.style.dialog_box);
+        EarthquakeDialog.setTitle("Finding earthquakes");
+        EarthquakeDialog.setMessage("this is groundbreaking work...");
+        EarthquakeDialog.setCancelable(false);
+    }
 
     private void getEarthquakeData() {
         final EarthquakeService earthquakeService = new EarthquakeService();
@@ -47,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
+                delaydialog();
             }
 
             @Override
@@ -58,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void run() {
                         EarthquakeListView.setAdapter(mAdapter);
+                        delaydialog();
                     }
                 });
             }
@@ -66,8 +104,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if (view == GetEarth) {
-            getEarthquakeData();
-        }
     }
 }

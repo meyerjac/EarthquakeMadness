@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import jacksonmeyer.com.earthquakemadness.models.Earthquake;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -46,11 +47,11 @@ public class EarthquakeService {
                     JSONObject item = earthquakes.getJSONObject(i);
                     String datetime = item.getString("datetime");
                     Integer depth = item.getInt("depth");
-                    Integer lng = item.getInt("lng");
+                    Double lng = item.getDouble("lng");
                     String src = item.getString("src");
                     String eqid = item.getString("eqid");
-                    Integer magnitude = item.getInt("magnitude");
-                    Integer lat = item.getInt("lat");
+                    Double magnitude = item.getDouble("magnitude");
+                    Double lat = item.getDouble("lat");
 
                     Earthquake earthquakeObject = new Earthquake(datetime, depth, lng, src, eqid, magnitude, lat);
 

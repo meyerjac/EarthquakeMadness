@@ -1,4 +1,4 @@
-package jacksonmeyer.com.earthquakemadness;
+package jacksonmeyer.com.earthquakemadness.models;
 
 /**
  * Created by jacksonmeyer on 5/6/17.
@@ -7,13 +7,13 @@ package jacksonmeyer.com.earthquakemadness;
 public class Earthquake {
     String datetime;
     Integer depth;
-    Integer lng;
+    Double lng;
     String src;
     String eqid;
-    Integer magnitude;
-    Integer lat;
+    Double magnitude;
+    Double lat;
 
-    public Earthquake(String datetime, Integer depth, Integer lng, String src, String eqid, Integer magnitude, Integer lat) {
+    public Earthquake(String datetime, Integer depth, Double lng, String src, String eqid, Double magnitude, Double lat) {
         this.datetime = datetime;
         this.depth = depth;
         this.lng = lng;
@@ -31,11 +31,11 @@ public class Earthquake {
         return depth;
     }
 
-    public Integer getLng() {
+    public Double getLng() {
         return lng;
     }
 
-    public String src() {
+    public String getSrc() {
         return src;
     }
 
@@ -43,11 +43,11 @@ public class Earthquake {
         return eqid;
     }
 
-    public Integer getMagnitude() {
+    public Double getMagnitude() {
         return magnitude;
     }
 
-    public Integer getLat() {
+    public Double getLat() {
         return lat;
     }
 
