@@ -1,19 +1,17 @@
 package jacksonmeyer.com.earthquakemadness;
 
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,7 +22,6 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import jacksonmeyer.com.earthquakemadness.models.Earthquake;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -34,7 +31,7 @@ import static jacksonmeyer.com.earthquakemadness.R.id.earthquakeListView;
 public class MainActivity extends ActionBarActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
 
-    public ArrayList<Earthquake> earthquakeResults = new ArrayList<Earthquake>();
+    public ArrayList<Earthquake> earthquakeResults = new ArrayList<>();
     private EarthquakeAdapter mAdapter;
     private ProgressDialog EarthquakeDialog;
 
@@ -47,8 +44,8 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        createEarthquakeProgressDialog();
-        showDialogBox();
+        createEarthquakeDialog();
+        createAndShowDialogBox();
 
         if (internetIsAvailable()) {
             getEarthquakeData();
@@ -67,24 +64,15 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.info_icon:
-              showInfoDialogFragment();
+              showDialogForm();
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void delayFetchingApiDataDialog() {
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                EarthquakeDialog.dismiss();
-            }
-        }, 2000);
-    }
 
-    public void showDialogBox() {
-        createEarthquakeProgressDialog();
+    public void createAndShowDialogBox() {
+        createEarthquakeDialog();
         EarthquakeDialog.show();
     }
 
@@ -93,7 +81,7 @@ public class MainActivity extends ActionBarActivity {
         return cm.getActiveNetworkInfo() != null;
     }
 
-    private void createEarthquakeProgressDialog() {
+    private void createEarthquakeDialog() {
         EarthquakeDialog = new ProgressDialog(this, R.style.dialog_box);
         EarthquakeDialog.setTitle("Finding earthquakes");
         EarthquakeDialog.setMessage("this is groundbreaking work...");
@@ -107,7 +95,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
-                delayFetchingApiDataDialog();
+                delayEarthquakeDialog();
             }
 
             @Override
@@ -119,7 +107,7 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     public void run() {
                         EarthquakeListView.setAdapter(mAdapter);
-                        delayFetchingApiDataDialog();
+                        delayEarthquakeDialog();
 
                         EarthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -134,39 +122,32 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
-
-    void showInfoDialogFragment() {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        MyDialogFragment frag = new MyDialogFragment();
-        frag.show(ft, "txn_tag");
-    }
-
-    static public class MyDialogFragment extends DialogFragment {
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setStyle(DialogFragment.STYLE_NORMAL, R.style.MY_DIALOG);
-        }
-
-        @Override
-        public void onStart() {
-            super.onStart();
-            Dialog d = getDialog();
-            if (d!=null){
-                int width = ViewGroup.LayoutParams.MATCH_PARENT;
-                int height = ViewGroup.LayoutParams.MATCH_PARENT;
-                d.getWindow().setLayout(width, height);
+    private void delayEarthquakeDialog() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                EarthquakeDialog.dismiss();
             }
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View root = inflater.inflate(R.layout.my_fragment, container, false);
-            return root;
-        }
-
+        }, 2000);
     }
 
+
+
+    private void showDialogForm() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialog_box);
+        LayoutInflater inflater = this.getLayoutInflater();
+        builder.setView(inflater.inflate(R.layout.info_fragment, null));
+        // Add action buttons
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }
 

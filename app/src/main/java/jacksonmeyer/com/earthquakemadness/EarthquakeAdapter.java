@@ -11,8 +11,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import jacksonmeyer.com.earthquakemadness.models.Earthquake;
-
 /**
  * Created by jacksonmeyer on 5/6/17.
  */
@@ -52,8 +50,18 @@ public View getView(int position, View convertView, ViewGroup parent) {
     // Populate the data into the template view using the data object
     DateTextView.setText(earthquake.getDatetime());
     Double magnitude = earthquake.getMagnitude();
-    MagnitudeTextView.setText(String.valueOf(magnitude));
+
+
+
+    if (magnitude >= 6) {
+        MagnitudeTextView.setText(String.valueOf(magnitude) + "!");
+    } else {
+        MagnitudeTextView.setText(String.valueOf(magnitude));
+    }
+
     Integer depth = earthquake.getDepth();
+    DepthTextView.setText("depth: " + earthquake.getDepth() + " km.");
+
     if (depth >= 75) {
      RelativeLayoutView.setBackgroundResource(R.color.colorPrimaryDark);
     } else if (depth >= 20 && depth < 75){
@@ -61,7 +69,8 @@ public View getView(int position, View convertView, ViewGroup parent) {
     } else {
         RelativeLayoutView.setBackgroundResource(R.color.colorAccent);
     }
-    DepthTextView.setText("depth: " + earthquake.getDepth() + " km.");
+
+
     Double lat = earthquake.getLat();
     Double lng = earthquake.getLng();
 

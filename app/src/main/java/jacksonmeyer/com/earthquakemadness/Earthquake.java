@@ -1,4 +1,4 @@
-package jacksonmeyer.com.earthquakemadness.models;
+package jacksonmeyer.com.earthquakemadness;
 
 /**
  * Created by jacksonmeyer on 5/6/17.

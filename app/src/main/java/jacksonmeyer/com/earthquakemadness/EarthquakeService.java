@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import jacksonmeyer.com.earthquakemadness.models.Earthquake;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
