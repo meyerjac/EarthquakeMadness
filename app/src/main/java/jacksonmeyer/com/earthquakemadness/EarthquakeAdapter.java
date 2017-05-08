@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by jacksonmeyer on 5/6/17.
@@ -40,11 +42,19 @@ public View getView(int position, View convertView, ViewGroup parent) {
     // Populate the data into the template view using the data object
     Double magnitude = earthquake.getMagnitude();
     Integer depth = earthquake.getDepth();
-    DateTextView.setText(earthquake.getDatetime());
-    DepthTextView.setText("depth: " + earthquake.getDepth() + " km.");
-    Double lat = earthquake.getLat();
-    Double lng = earthquake.getLng();
+    String date = earthquake.getDatetime();
 
+    DepthTextView.setText("depth: " + earthquake.getDepth() + " km.");
+
+
+    SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    SimpleDateFormat output = new SimpleDateFormat("dd MMM, yyyy");
+    try {
+       Date formattedTripDate = input.parse(date);                 // parse input
+        DateTextView.setText(output.format(formattedTripDate));// format output
+    } catch (ParseException e) {
+        e.printStackTrace();
+    }
 
     if (magnitude >= 6) {
         MagnitudeTextView.setText(String.valueOf(magnitude) + "!");
@@ -59,17 +69,6 @@ public View getView(int position, View convertView, ViewGroup parent) {
     } else {
         RelativeLayoutView.setBackgroundResource(R.color.colorAccent);
     }
-
-    // Attach the click event listener
-    RelativeLayoutView.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            // Access the row position here to get the correct data item
-            int position = (Integer) view.getTag();
-            Earthquake earthquake = getItem(position);
-            Toast.makeText(getContext(), earthquake.getDatetime(), Toast.LENGTH_SHORT).show();
-        }
-    });
 
     // Return the completed view to render on screen
         return convertView;

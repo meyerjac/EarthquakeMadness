@@ -8,8 +8,7 @@
         had a magnitude of 6.0 or higher on the richter scale, the Magnitude reading will have an exclamation mark! </string>
     <string name="ok_text">Ok</string>
     <string name="wert">Earthquake Madness</string>
-
-
+    <string name="title_activity_maps">Map</string>
 
 
 </resources>

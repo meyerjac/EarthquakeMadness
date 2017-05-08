@@ -3,6 +3,7 @@ package jacksonmeyer.com.earthquakemadness;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,8 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -27,10 +28,13 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 import static jacksonmeyer.com.earthquakemadness.R.id.earthquakeListView;
+import static jacksonmeyer.com.earthquakemadness.R.id.imageButton;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     @Bind(earthquakeListView)
     ListView EarthquakeListView;
+    @Bind(imageButton)
+    ImageButton ReloadButton;
 
     public ArrayList<Earthquake> earthquakeResults = new ArrayList<>();
     private EarthquakeAdapter mAdapter;
@@ -41,14 +45,16 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        createEarthquakeDialog();
-        createAndShowDialogBox();
+        ReloadButton.setOnClickListener(this);
 
         if (internetIsAvailable()) {
+            EarthquakeListView.setVisibility(View.VISIBLE);
+            createEarthquakeDialog();
+            createAndShowDialogBox();
             getEarthquakeData();
         } else {
             Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
+            ReloadButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -109,8 +115,10 @@ public class MainActivity extends ActionBarActivity {
                         EarthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                String restaurant = ((TextView)view).getText().toString();
-                                Toast.makeText(MainActivity.this, restaurant, Toast.LENGTH_LONG).show();
+                                String lat = String.valueOf(earthquakeResults.get(i).getLat());
+                                String lon = String.valueOf(earthquakeResults.get(i).getLng());
+                                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                                startActivity(intent);
                             }
                         });
                     }
@@ -136,12 +144,19 @@ public class MainActivity extends ActionBarActivity {
         // Add action buttons
         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-
             }
         });
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == ReloadButton) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 }
 
