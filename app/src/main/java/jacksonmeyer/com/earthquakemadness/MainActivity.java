@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -134,6 +135,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                                 intent.putExtra("lat", lat);
                                 intent.putExtra("lng", lng);
                                 startActivity(intent);
+                                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                             }
                         });
                     }
@@ -171,8 +173,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view == ReloadButton) {
+            view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.click));
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
     }
 }

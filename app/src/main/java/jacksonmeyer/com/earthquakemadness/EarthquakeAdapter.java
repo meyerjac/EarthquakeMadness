@@ -48,8 +48,6 @@ public View getView(int position, View convertView, ViewGroup parent) {
     String date = earthquake.getDatetime();
 
     DepthTextView.setText("depth: " + earthquake.getDepth() + " km.");
-
-
     SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     SimpleDateFormat output = new SimpleDateFormat("dd MMM, yyyy");
     try {
@@ -77,7 +75,5 @@ public View getView(int position, View convertView, ViewGroup parent) {
     // Return the completed view to render on screen
         return convertView;
     }
-
-
 }
 
