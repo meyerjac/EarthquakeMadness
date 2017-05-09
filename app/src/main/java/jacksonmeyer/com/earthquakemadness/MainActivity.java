@@ -48,13 +48,15 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         ReloadButton.setOnClickListener(this);
 
         if (internetIsAvailable()) {
-            EarthquakeListView.setVisibility(View.VISIBLE);
+            ReloadButton.setVisibility(View.INVISIBLE);
             createEarthquakeDialog();
             createAndShowDialogBox();
             getEarthquakeData();
         } else {
+            EarthquakeListView.setVisibility(View.INVISIBLE);
+
             Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
-            ReloadButton.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -79,7 +81,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         EarthquakeDialog.show();
     }
 
-    private boolean internetIsAvailable() {
+    public boolean internetIsAvailable() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
     }
