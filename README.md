@@ -6,7 +6,7 @@
 
 ## Description
 
-_The purpose of this app is to be used by the Portland Ebay Hiring teamt to understand my skill level in androi development. Functionally, this app draws data via an API that doesn't use athentication. It displays that data to the user in an understandale and natural way_
+_The purpose of this app is to be used by the Portland Ebay Hiring team to understand my skill level in android development. Functionally, this app draws data via an API that doesn't use athentication. It displays that data to the user in an understandable and natural way_
 
 ## Setup/Installation Requirements
 
@@ -24,7 +24,7 @@ _As of right now there are no known bugs, but if you come accross one, or it is 
 
 ## Technologies Used
 
-_This app is built extensively in the IDE Android Studios; this means that I am writing the bulk of this program in Java, while the UI is styled in mostly in XML.  I imported Square's okhttp3 library to handle API calls, and Butterknife to handle view binding._
+_This app is built extensively in the IDE Android Studios; this means that I am writing the bulk of this program in Java, while the UI is styled in mostly in XML.  I imported Square's okhttp3 library to handle API calls, and Butterknife to handle view binding. I imported numerous library's for testing._
 
 ### License
 
