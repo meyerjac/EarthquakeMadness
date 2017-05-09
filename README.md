@@ -6,7 +6,7 @@
 
 ## Description
 
-_The purpose of this app is to be used by the Portland Ebay Hiring teamt to understand my skill level in androi development. Functionally, this app draws data via an API that doesn't use athentication. It displays that data to the user in an understandale and natural way _
+_The purpose of this app is to be used by the Portland Ebay Hiring teamt to understand my skill level in androi development. Functionally, this app draws data via an API that doesn't use athentication. It displays that data to the user in an understandale and natural way_
 
 ## Setup/Installation Requirements
 
