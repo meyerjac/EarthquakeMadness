@@ -58,6 +58,7 @@ public class MainActivityTest {
     }
 
 
+    //This FREAKING GUY...isnt working yet
     @Test
     public void makeSureAdapterWorks() {
         class EarthquakeAdapterTest extends MainActivityTest {

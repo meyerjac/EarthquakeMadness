@@ -7,11 +7,10 @@ import android.test.ActivityInstrumentationTestCase2;
 /**
  * Created by jacksonmeyer on 5/8/17.
  */
-public class MapsActivityTest extends ActivityInstrumentationTestCase2<MapsActivity> {
-    public MapsActivityTest() {
+public class MapsActivityInstrumentedTest extends ActivityInstrumentationTestCase2<MapsActivity> {
+    public MapsActivityInstrumentedTest() {
         super(MapsActivity.class);
     }
-
 
     @Override
     public void setUp() throws Exception {
@@ -20,17 +19,15 @@ public class MapsActivityTest extends ActivityInstrumentationTestCase2<MapsActiv
         i.putExtra("lat", "45.45");
         i.putExtra("lng", "45.45");
         setActivityIntent(i);
-        getActivity();
     }
 
     @SmallTest
     public void testActivityIntents() {
+        // checks that the activity will even start and grab intents
+        getActivity();
     }
 
 
-    @Override
-    public void tearDown() {
-    }
 }
 
 
