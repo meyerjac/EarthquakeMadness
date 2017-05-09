@@ -31,6 +31,7 @@ import static jacksonmeyer.com.earthquakemadness.R.id.earthquakeListView;
 import static jacksonmeyer.com.earthquakemadness.R.id.imageButton;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
+    private static AlertDialog lastDialog;
     @Bind(earthquakeListView)
     ListView EarthquakeListView;
     @Bind(imageButton)
@@ -39,6 +40,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public ArrayList<Earthquake> earthquakeResults = new ArrayList<>();
     private EarthquakeAdapter mAdapter;
     private ProgressDialog EarthquakeDialog;
+
+
+    public static AlertDialog getLastDialog() {
+        return lastDialog;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +62,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             EarthquakeListView.setVisibility(View.INVISIBLE);
 
             Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
-
         }
     }
 
@@ -152,6 +157,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         });
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         AlertDialog dialog = builder.create();
+        lastDialog = dialog;
         dialog.show();
     }
 
