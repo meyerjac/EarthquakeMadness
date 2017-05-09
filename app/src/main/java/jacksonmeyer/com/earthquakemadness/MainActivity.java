@@ -40,8 +40,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public ArrayList<Earthquake> earthquakeResults = new ArrayList<>();
     private EarthquakeAdapter mAdapter;
     private ProgressDialog EarthquakeDialog;
-
-
+    //had to create static dialog for testing purposes
     public static AlertDialog getLastDialog() {
         return lastDialog;
     }
@@ -53,6 +52,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         ButterKnife.bind(this);
         ReloadButton.setOnClickListener(this);
 
+        /*onStart check what the state is of the device and if it will be able to fetch API endpoint
+        if avaliable it calls API and populated ListView, otherwise it shows a toast and displays a 'retry' button
+         */
+
         if (internetIsAvailable()) {
             ReloadButton.setVisibility(View.INVISIBLE);
             createEarthquakeDialog();
@@ -60,7 +63,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             getEarthquakeData();
         } else {
             EarthquakeListView.setVisibility(View.INVISIBLE);
-
             Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
         }
     }
@@ -80,23 +82,27 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    //lets user know we are getting data for them
     public void createAndShowDialogBox() {
         createEarthquakeDialog();
         EarthquakeDialog.show();
     }
-
+    //method checking connected state
     public boolean internetIsAvailable() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
     }
-
+    //dialog creation BABY
     private void createEarthquakeDialog() {
         EarthquakeDialog = new ProgressDialog(this, R.style.dialog_box);
-        EarthquakeDialog.setTitle("Finding earthquakes");
-        EarthquakeDialog.setMessage("this is groundbreaking work...");
+        EarthquakeDialog.setTitle(R.string.finding_earthquakes);
+        EarthquakeDialog.setMessage(this.getString(R.string.groundbreaking_work));
         EarthquakeDialog.setCancelable(false);
     }
+
+    /*The meat of the app, this creates an instance of my Earthquake service and
+     returns nicely parsed data as objects into arrayList
+     */
 
     private void getEarthquakeData() {
         final EarthquakeService earthquakeService = new EarthquakeService();
@@ -161,6 +167,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         dialog.show();
     }
 
+    //only click happens will only be visible if there is no internet
     @Override
     public void onClick(View view) {
         if (view == ReloadButton) {

@@ -1,14 +1,18 @@
 <resources>
     <string name="app_name">Earthquake Madness</string>
-    <string name="no_internet">There appears to be no internet, please try again</string>
+    <string name="no_internet">There appears to be no internet, please find internet and retry</string>
     <string name="info_text">info</string>
+    <string name="ok_text">OK</string>
+    <string name="exclamation_mark">%2$d !</string>
+    <string name="title_activity_maps">Map</string>
     <string name="info_alert_dialog_text">The app icon was downloaded from flaticon.com,
-        the color of each earthquake listItem indicates the depth of the earthquake; the darker
+        the color of each earthquake list Item indicates the depth of the earthquake; the darker
         the shade of brown the deeper in the earths crust the earthquake happened. If a Earthquake
         had a magnitude of 6.0 or higher on the richter scale, the Magnitude reading will have an exclamation mark! </string>
-    <string name="ok_text">Ok</string>
-    <string name="wert">Earthquake Madness</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="finding_earthquakes">Finding earthquakes</string>
+    <string name="groundbreaking_work"> this is groundbreaking work</string>
+
+
 
 
 </resources>

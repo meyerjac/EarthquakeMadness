@@ -29,8 +29,11 @@ public View getView(int position, View convertView, ViewGroup parent) {
     // Get the data for the item in this position
     Earthquake earthquake = getItem(position);
     // Check if an existing view is being reused, otherwise inflate the view...this improves performance baby!
-    if (convertView == null) {convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
+    if (convertView == null) {
+        convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
     }
+
+
 
     // define views in list_item.xml to fill with data
     TextView DateTextView = (TextView) convertView.findViewById(R.id.dateTextView);
@@ -50,13 +53,15 @@ public View getView(int position, View convertView, ViewGroup parent) {
     SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     SimpleDateFormat output = new SimpleDateFormat("dd MMM, yyyy");
     try {
-       Date formattedTripDate = input.parse(date);                 // parse input
+        Date formattedTripDate = input.parse(date);                 // parse input
         DateTextView.setText(output.format(formattedTripDate));// format output
     } catch (ParseException e) {
         e.printStackTrace();
     }
 
+
     if (magnitude >= 6) {
+
         MagnitudeTextView.setText(String.valueOf(magnitude) + "!");
     } else {
         MagnitudeTextView.setText(String.valueOf(magnitude));
@@ -69,9 +74,10 @@ public View getView(int position, View convertView, ViewGroup parent) {
     } else {
         RelativeLayoutView.setBackgroundResource(R.color.colorAccent);
     }
-
     // Return the completed view to render on screen
         return convertView;
     }
+
+
 }
 

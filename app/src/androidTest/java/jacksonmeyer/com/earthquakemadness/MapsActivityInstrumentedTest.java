@@ -12,6 +12,7 @@ public class MapsActivityInstrumentedTest extends ActivityInstrumentationTestCas
         super(MapsActivity.class);
     }
 
+    //just testing intent extras are sent, and activity starts
     @Override
     public void setUp() throws Exception {
         super.setUp();
